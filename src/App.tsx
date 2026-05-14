@@ -123,7 +123,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: any;
     if (isLiveEnabled && activeChatTicket) {
       interval = setInterval(() => {
         refreshActiveChat();
@@ -250,6 +250,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F0] text-[#1A1A1A] font-sans flex flex-col md:flex-row">
+      <div className="sr-only">App Loaded</div>
       {/* Backend Error Banner */}
       {backendError && (
         <div className="fixed top-0 left-0 right-0 bg-red-600 text-white text-[10px] py-1 px-4 z-[100] text-center font-bold animate-pulse">
