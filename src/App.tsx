@@ -43,17 +43,25 @@ export default function App() {
   const [customPrompt, setCustomPrompt] = useState('');
 
   const [subdomain, setSubdomain] = useState('');
+  const [backendError, setBackendError] = useState(false);
 
   useEffect(() => {
     console.log("App mounted");
     // 獲取設定
     fetch('/api/config')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error("Backend not reachable");
+        return r.json();
+      })
       .then(data => {
         console.log("Config loaded:", data);
         setSubdomain(data.subdomain);
+        setBackendError(false);
       })
-      .catch(err => console.error("Config fetch error:", err));
+      .catch(err => {
+        console.error("Config fetch error:", err);
+        setBackendError(true);
+      });
 
     // 偵測是否由 Zendesk 傳入參數
     const params = new URLSearchParams(window.location.search);
@@ -242,6 +250,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F0] text-[#1A1A1A] font-sans flex flex-col md:flex-row">
+      {/* Backend Error Banner */}
+      {backendError && (
+        <div className="fixed top-0 left-0 right-0 bg-red-600 text-white text-[10px] py-1 px-4 z-[100] text-center font-bold animate-pulse">
+          BACKEND SERVER UNREACHABLE - PLEASE ENSURE YOU ARE USING THE "PUBLISH" URL (CLOUD RUN)
+        </div>
+      )}
       {/* Sidebar / Navigation */}
       {!isZendeskMode && (
         <nav className="w-full md:w-16 bg-[#151619] flex flex-row md:flex-col items-center py-4 md:py-8 justify-around md:justify-start gap-4 md:gap-8 text-[#8E9299] z-50 shrink-0">
