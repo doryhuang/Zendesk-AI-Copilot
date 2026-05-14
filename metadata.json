@@ -1,0 +1,6 @@
+{
+  "name": "Zendesk AI Copilot",
+  "description": "AI-powered assistant for Zendesk Support and Chat. Automatically summarizes tickets and generates suggested replies using Google Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
