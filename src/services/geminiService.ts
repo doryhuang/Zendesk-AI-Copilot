@@ -1,6 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 
 const apiKey = (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : '') || "";
+if (!apiKey) {
+  console.warn("GEMINI_API_KEY is missing in the client environment. AI features will fail.");
+}
 const ai = new GoogleGenAI({ apiKey });
 
 export async function summarizeTicket(content: string) {
